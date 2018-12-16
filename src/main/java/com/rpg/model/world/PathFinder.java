@@ -1,5 +1,6 @@
 package com.rpg.model.world;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
@@ -19,20 +20,18 @@ public class PathFinder {
 		this.begin = begin;
 		this.end = end;
 		this.map = map;
+		this.createUnreachableMatrice();
 		for (int i = 0; i < map.getGrid().length; i++) {
 			for (int j = 0; j < map.getGrid()[i].length; j++) {
-				GroundNode gn = new GroundNode(i, j, GroundType.Grass);
+				GroundNode gn = map.getGrid()[i][j];
 			    gn.setHeuristicCost(Math.abs(i-begin.getX()) + Math.abs(j-begin.getY()));
 			    map.getGrid()[i][j] = gn;
-			    System.out.print(gn.getHeuristicCost()+"-");
 			}
-			 System.out.println();
 		}
 	}
 	
 	
 	public Node searchPath(){
-		//open.add(map.getGrid()[begin.getX()][begin.getY()]);
 		
 		open.add(begin);
 		
@@ -93,6 +92,17 @@ public class PathFinder {
 		return current;
 	}
 	
+	private void createUnreachableMatrice() {
+		for (int i = 0; i < map.getGrid().length; i++) {
+			for (int j = 0; j < map.getGrid()[i].length; j++) {
+				if(!map.getGrid()[i][j].getGroundType().isWalkable())
+					closed[i][j]=true;
+			}
+			System.out.println(closed);
+		}
+	}
+
+
 	private void checkAndUpdateCost(Node current, Node t, int cost) {
 		if(t == null || closed[t.getX()][t.getY()])return;
 		int t_final_cost = t.getHeuristicCost()+cost;
@@ -117,11 +127,27 @@ public class PathFinder {
 		});
 	}
 	
-	public static void printPath(Node node) {
-		System.out.println(node);
-		if(node.getParent() != null) {
-			printPath(node.getParent());
+	public static void printPath(Node node, Map map) {
+		GroundNode[][] mapCopy =Arrays.copyOf(map.getGrid(), map.getGrid().length);
+
+		char[][] charMatrice = map.getCharacterRepresentation();
+		charMatrice = browseAndWritePathHistory(node, charMatrice);
+		
+		for (int i = charMatrice.length - 1; i >= 0; i--) {
+			for (char elemy : charMatrice[i]) {
+				System.out.print(elemy);
+			}
+			System.out.println();
+		}		
+	}
+	private static char[][] browseAndWritePathHistory(Node n, char[][] map) {
+		if(n.getParent() != null) {
+			map[n.getX()][n.getY()] = 'P';
+			n = n.getParent();
+			browseAndWritePathHistory(n, map);
 		}
+		return map;
+
 	}
 
 	

@@ -23,7 +23,7 @@ public class Application {
 		
 		PathFinder pf = new PathFinder(map, this.elements.get(0).getPosition(), this.elements.get(5).getPosition());
 		Node node = pf.searchPath();
-		PathFinder.printPath(node);
+		PathFinder.printPath(node, map);
 	}
 	
 	

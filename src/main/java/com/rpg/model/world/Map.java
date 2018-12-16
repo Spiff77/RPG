@@ -25,7 +25,9 @@ public class Map {
 				grid[i][j] = gn;
 			    System.out.print(gn.getHeuristicCost()+"-");
 			}
-			// System.out.println();
+		}
+		for(int i=0; i<Map.MAP_WIDTH-1; i++) {
+			grid[4][i].setGroundType(GroundType.Canyon);
 		}
 	}
 
@@ -36,6 +38,16 @@ public class Map {
 			}
 			System.out.println();
 		}
+	}
+	public char[][] getCharacterRepresentation() {
+		char[][] seList = new char[MAP_WIDTH][MAP_HEIGHT];
+
+		for(GroundNode[] gnTab :grid) {
+			for(GroundNode gn: gnTab) {
+				seList[gn.getX()][gn.getY()] = gn.getGroundType().getRepresentation();
+			}
+		}
+		return seList;
 	}
 	public void printSpacialElementsNode(List<SpacialElement> elems) {
 		char[][] seList = new char[MAP_WIDTH][MAP_HEIGHT];

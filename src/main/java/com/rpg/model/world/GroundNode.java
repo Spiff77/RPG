@@ -12,5 +12,8 @@ public class GroundNode extends Node{
 		return groundType;
 	}
 	
+	public void setGroundType(GroundType groundType) {
+		this.groundType = groundType;
+	}
 	
 }

@@ -22,6 +22,22 @@ public enum GroundType {
 	public char getRepresentation() {
 		return representation;
 	}
+
+	public int getResistance() {
+		return resistance;
+	}
+
+	public void setResistance(int resistance) {
+		this.resistance = resistance;
+	}
+
+	public boolean isWalkable() {
+		return walkable;
+	}
+
+	public void setWalkable(boolean walkable) {
+		this.walkable = walkable;
+	}
 	
 	
 }
